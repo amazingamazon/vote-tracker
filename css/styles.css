@@ -36,8 +36,16 @@ p {
   text-align: center;
 }
 
-#button {
+#submit {
   clear: left;
   margin-left: 600px;
   margin-top: 300px;
 }
+
+/*button {
+  padding: 0;
+  float: left;
+  width: 250px;
+  height: 250px;
+}
+*/
