@@ -4,14 +4,12 @@ function displayImage1() {
   var pic1 = document.getElementById("pic1");
   var num1 = Math.floor(Math.random() * (14 - 1) + 1);
   pic1.src = catPics[num1];
-  console.log(pic1.src);
 }
 
 function displayImage2() {
   var pic2 = document.getElementById("pic2");
   var num2 = Math.floor(Math.random() * (14 - 1) + 1);
   pic2.src = catPics[num2];
-  console.log(pic2.src);
 }
 
 displayImage1();
@@ -19,15 +17,22 @@ displayImage2();
 
 
 
-var push = document.getElementById("submit");
-push.addEventListener("click", function() {
+var reroll = document.getElementById("submit");
+reroll.addEventListener("click", function() {
   displayImage1();
   displayImage2();
   if (displayImage1 == displayImage2) {
     displayImage1();
     displayImage2();
   }
-  console.log("This ran");
+});
+
+
+var count = 0;
+var vote = document.getElementById("pic1");
+vote.addEventListener("click", function() {
+  count += 1;
+  console.log(count);
 });
 
 

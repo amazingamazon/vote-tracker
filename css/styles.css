@@ -18,15 +18,8 @@ h2 {
   width: 960px;
 }
 
-#pic1 {
+#pic1, #pic2 {
   float: left;
-}
-
-#pic2 {
-  float: left;
-}
-
-img {
   margin-left: 200px;
   margin-right: 200px;
 }
