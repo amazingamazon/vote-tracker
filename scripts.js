@@ -1,4 +1,4 @@
-var catPics = ["img/01.jpg", "img/02.jpg", "img/03.jpg", "img/04.jpg", "img/05.jpg", "img/06.jpg", "img/07.jpg", "img/08.jpg", "img/09.jpg", "img/10.jpg", "img/11.jpg", "img/12.jpg", "img/13.jpg", "img/14.jpg"];
+// var catPics = ["img/01.jpg", "img/02.jpg", "img/03.jpg", "img/04.jpg", "img/05.jpg", "img/06.jpg", "img/07.jpg", "img/08.jpg", "img/09.jpg", "img/10.jpg", "img/11.jpg", "img/12.jpg", "img/13.jpg", "img/14.jpg"];
 
 var Photo = function(path) {
   this.path = "img/" + path + ".jpg";
@@ -8,10 +8,6 @@ var Photo = function(path) {
     console.log(this.votes);
   };
 };
-
-var Tracker = function() {
-  this.photos
-}
 
 var cat1 = new Photo("01");
 var cat2 = new Photo("02");
@@ -31,40 +27,63 @@ var cat14 = new Photo("14");
 var cats = [];
 cats.push(cat1, cat2, cat3, cat4, cat5, cat6, cat7, cat8, cat9, cat10, cat11, cat12, cat13, cat14);
 
+var Tracker = function() {
+  this.cats = cats;
+};
 
-function displayImage1() {
-  var pic1 = document.getElementById("pic1");
-  var num1 = Math.floor(Math.random() * (14 - 1));
-  pic1.src = cats[num1].path;
-}
+Tracker.prototype.generateRandom = function(){
+  var randNum = Math.floor(Math.random() * (this.cats.length));
+  return randNum;
+};
 
-function displayImage2() {
-  var pic2 = document.getElementById("pic2");
-  var num2 = Math.floor(Math.random() * (14 - 1) + 1);
-  pic2.src = cats[num2].path;
-}
-
-displayImage1();
-displayImage2();
-
-
-
-var reroll = document.getElementById("submit");
-reroll.addEventListener("click", function() {
-  displayImage1();
-  displayImage2();
-  if (displayImage1 == displayImage2) {
-    displayImage1();
-    displayImage2();
+Tracker.prototype.displayImages = function() {
+  var left = document.getElementById("pic1");
+  var right = document.getElementById("pic2");
+  // var imgs = [this.cats[generateRandom].path, this.cats[generateRandom].path];
+  left.src = cats[this.generateRandom()].path;
+  right.src = cats[this.generateRandom()].path;
+  while (left.src == right.src) {
+    this.displayImages();
   }
-});
+};
+
+var getCats = new Tracker();
+// getCats.displayImage("pic1", "pic2");
+getCats.displayImages();
+
+// function displayImage1() {
+//   var pic1 = document.getElementById("pic1");
+//   var num1 = Math.floor(Math.random() * (14));
+//   pic1.src = cats[num1].path;
+// }
+
+// function displayImage2() {
+//   var pic2 = document.getElementById("pic2");
+//   var num2 = Math.floor(Math.random() * (14 - 1) + 1);
+//   pic2.src = cats[num2].path;
+// }
+
+// displayImage1();
+// displayImage2();
 
 
-var count = 0;
-var vote = document.getElementById("pic1");
-vote.addEventListener("click", function() {
-  count += 1;
-});
+
+// var reroll = document.getElementById("submit");
+// reroll.addEventListener("click", function() {
+//   displayImage1();
+//   displayImage2();
+//   if (displayImage1 == displayImage2) {
+//     displayImage1();
+//     displayImage2();
+//   }
+// });
+
+
+// var count = 0;
+// var vote = document.getElementById("pic1");
+// vote.addEventListener("click", function() {
+//   count += 1;
+// });
 
 
 
