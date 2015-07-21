@@ -3,10 +3,10 @@
 var Photo = function(path) {
   this.path = "img/" + path + ".jpg";
   this.votes = 0;
-  this.receiveVote = function() {
-    this.votes += 1;
-    console.log(this.votes);
-  };
+  // this.receiveVote = function() {
+  //   this.votes += 1;
+  //   console.log(this.votes);
+  // };
 };
 
 var cat1 = new Photo("01");
@@ -29,27 +29,71 @@ cats.push(cat1, cat2, cat3, cat4, cat5, cat6, cat7, cat8, cat9, cat10, cat11, ca
 
 var Tracker = function() {
   this.cats = cats;
+  this.left = document.getElementById("pic1");
+  this.right = document.getElementById("pic2");
 };
 
-Tracker.prototype.generateRandom = function(){
+Tracker.prototype.generateRandom = function() {
   var randNum = Math.floor(Math.random() * (this.cats.length));
-  return randNum;
+  var randCat = this.cats[randNum];
+  return randCat;
 };
+
+// Track.prototype.randCat = function() {
+//   var randCat = this.cats[this.generateRandom()];
+//   console.log(randCat);
+// };
 
 Tracker.prototype.displayImages = function() {
-  var left = document.getElementById("pic1");
-  var right = document.getElementById("pic2");
-  // var imgs = [this.cats[generateRandom].path, this.cats[generateRandom].path];
-  left.src = cats[this.generateRandom()].path;
-  right.src = cats[this.generateRandom()].path;
-  while (left.src == right.src) {
+  this.left.src = this.generateRandom().path;
+  console.log(this.left.src);
+  this.right.src = this.generateRandom().path;
+  console.log(this.right.src);
+  while (this.left.src == this.right.src) {
+    console.log("It's the same cat!");
     this.displayImages();
   }
 };
 
+Tracker.prototype.catVote = function() {
+  this.left.addEventListener("submit", function() {
+    this.generateRandom().votes += 1;
+    console.log("This ran");
+  });
+  this.right.addEventListener("submit", function() {
+    this.generateRandom().votes += 1;
+    console.log(this.generateRandom().votes);
+  });
+};
+
+// Tracker.prototype.keepVoting = function() {
+//   var voteAgain = document.getElementById("reroll");
+//   voteAgain.addEventListener("click", this.displayImages);
+// };
+
 var getCats = new Tracker();
-// getCats.displayImage("pic1", "pic2");
 getCats.displayImages();
+getCats.catVote();
+
+var voteAgain = document.getElementById("reroll");
+voteAgain.addEventListener("click", function() {
+  getCats.left.src = getCats.generateRandom().path;
+  console.log(getCats.left.src);
+  getCats.right.src = getCats.generateRandom().path;
+  console.log(getCats.right.src);
+  while (getCats.left.src == getCats.right.src) {
+    console.log("It's the same cat!");
+    getCats.displayImages();
+  }
+});
+
+// var voteAgain = document.getElementById("reroll");
+// voteAgain.addEventListener("click", getCats.displayImages);
+
+
+// getCats.catVote();
+
+// getCats.randCat();
 
 // function displayImage1() {
 //   var pic1 = document.getElementById("pic1");
@@ -69,14 +113,7 @@ getCats.displayImages();
 
 
 // var reroll = document.getElementById("submit");
-// reroll.addEventListener("click", function() {
-//   displayImage1();
-//   displayImage2();
-//   if (displayImage1 == displayImage2) {
-//     displayImage1();
-//     displayImage2();
-//   }
-// });
+// reroll.addEventListener("click", getCats.displayImages);
 
 
 // var count = 0;
@@ -84,43 +121,3 @@ getCats.displayImages();
 // vote.addEventListener("click", function() {
 //   count += 1;
 // });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
