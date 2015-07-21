@@ -1,5 +1,3 @@
-// var catPics = ["img/01.jpg", "img/02.jpg", "img/03.jpg", "img/04.jpg", "img/05.jpg", "img/06.jpg", "img/07.jpg", "img/08.jpg", "img/09.jpg", "img/10.jpg", "img/11.jpg", "img/12.jpg", "img/13.jpg", "img/14.jpg"];
-
 var Photo = function(path) {
   this.path = "img/" + path + ".jpg";
   this.votes = 0;
@@ -39,11 +37,6 @@ Tracker.prototype.generateRandom = function() {
   return randCat;
 };
 
-// Track.prototype.randCat = function() {
-//   var randCat = this.cats[this.generateRandom()];
-//   console.log(randCat);
-// };
-
 Tracker.prototype.displayImages = function() {
   this.left.src = this.generateRandom().path;
   console.log(this.left.src);
@@ -71,9 +64,11 @@ voteAgain.addEventListener("click", function() {
   }
   getCats.left.removeAttribute("class");
   getCats.right.removeAttribute("class");
+
 });
 
 getCats.left.addEventListener("click", function() {
+    getCats.right.removeAttribute("class");
     getCats.left.setAttribute("class", "winner");
     var source = getCats.left.getAttribute("src");
     console.log(source);
@@ -82,42 +77,9 @@ getCats.left.addEventListener("click", function() {
   });
 
 getCats.right.addEventListener("click", function() {
+  getCats.left.removeAttribute("class");
   getCats.right.setAttribute("class", "winner");
   getCats.right.votes += 1;
   console.log(getCats.right + "has" + getCats.right.votes);
+
 });
-
-// var voteAgain = document.getElementById("reroll");
-// voteAgain.addEventListener("click", getCats.displayImages);
-
-
-// getCats.catVote();
-
-// getCats.randCat();
-
-// function displayImage1() {
-//   var pic1 = document.getElementById("pic1");
-//   var num1 = Math.floor(Math.random() * (14));
-//   pic1.src = cats[num1].path;
-// }
-
-// function displayImage2() {
-//   var pic2 = document.getElementById("pic2");
-//   var num2 = Math.floor(Math.random() * (14 - 1) + 1);
-//   pic2.src = cats[num2].path;
-// }
-
-// displayImage1();
-// displayImage2();
-
-
-
-// var reroll = document.getElementById("submit");
-// reroll.addEventListener("click", getCats.displayImages);
-
-
-// var count = 0;
-// var vote = document.getElementById("pic1");
-// vote.addEventListener("click", function() {
-//   count += 1;
-// });
