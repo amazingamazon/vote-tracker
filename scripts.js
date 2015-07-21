@@ -55,25 +55,9 @@ Tracker.prototype.displayImages = function() {
   }
 };
 
-Tracker.prototype.catVote = function() {
-  this.left.addEventListener("submit", function() {
-    this.generateRandom().votes += 1;
-    console.log("This ran");
-  });
-  this.right.addEventListener("submit", function() {
-    this.generateRandom().votes += 1;
-    console.log(this.generateRandom().votes);
-  });
-};
-
-// Tracker.prototype.keepVoting = function() {
-//   var voteAgain = document.getElementById("reroll");
-//   voteAgain.addEventListener("click", this.displayImages);
-// };
 
 var getCats = new Tracker();
 getCats.displayImages();
-getCats.catVote();
 
 var voteAgain = document.getElementById("reroll");
 voteAgain.addEventListener("click", function() {
@@ -85,6 +69,22 @@ voteAgain.addEventListener("click", function() {
     console.log("It's the same cat!");
     getCats.displayImages();
   }
+  getCats.left.removeAttribute("class");
+  getCats.right.removeAttribute("class");
+});
+
+getCats.left.addEventListener("click", function() {
+    getCats.left.setAttribute("class", "winner");
+    var source = getCats.left.getAttribute("src");
+    console.log(source);
+    getCats.left.votes += 1;
+    console.log(getCats.left + "has" + getCats.left.votes);
+  });
+
+getCats.right.addEventListener("click", function() {
+  getCats.right.setAttribute("class", "winner");
+  getCats.right.votes += 1;
+  console.log(getCats.right + "has" + getCats.right.votes);
 });
 
 // var voteAgain = document.getElementById("reroll");
