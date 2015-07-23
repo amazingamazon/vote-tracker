@@ -18,14 +18,14 @@ var pieData = [
    {
       value: 1,
       color: "#F41C54",
-      highlight: "#F3AF5A",
-      label: "Image 1"
+      highlight: "FF3C70",
+      label: "Image 2"
    },
    {
       value: 1,
       color: "#FF9F00",
-      highlight: "#F3AF5A",
-      label: "Image 2"
+      highlight: "#FF9F58",
+      label: "Image 1"
    }
 ];
 
