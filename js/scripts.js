@@ -1,98 +1,100 @@
-$(document).ready(function() {
+var photo = function (path, number) {
+  this.path = path;
+  this.number = number;
+  this.votes = 0;
+};
 
-  var photo = function (path, number) {
-   this.path = path;
-   this.number = number;
-   this.votes = 0;
-  };
+var cats = [];
+var left = undefined;
+var right = undefined;
 
-  var cats = [];
-  var left = undefined;
-  var right = undefined;
+for (var i = 1; i <= 14; i++) {
+ cats.push(new photo("img/" + i + ".jpg", i));
+}
 
-  var pieData = [
-     {
-        // value: cats[left].votes,
-        value: 1,
-        color: "#F41C54",
-        highlight: "#F3AF5A",
-        label: "Image 1"
-     },
-     {
-        // value: cats[right].votes,
-        value: 1,
-        color: "#FF9F00",
-        highlight: "#F3AF5A",
-        label: "Image 2"
-     }
-  ];
+console.log(cats);
 
-  var pieOptions = {
-     segmentShowStroke: false,
-     animateScale: true
-  };
-
-
-  var myChart = document.getElementById("myChart").getContext("2d");
-  var chart = new Chart(myChart).Pie(pieData, pieOptions);
-
-
-  for (var i = 1; i <= 14; i++) {
-   cats.push(new photo("img/" + i + ".jpg", i));
-  }
-
-  console.log(cats);
-
-  function randomNum(min, max) {
-   return Math.floor(Math.random() * (max - min) + min);
-  }
-
-  function display() {
-   $('#pic1').attr("src", cats[left].path);
-   $('#pic2').attr("src", cats[right].path);
-  }
-  newDisplay();
-  display();
-
-  function newDisplay() {
-     left = randomNum(1, 14);
-     right = randomNum(1, 14);
-     if (left == right) {
-        right = randomNum(1, 14);
-     }
-     console.log(left, right);
+var pieData = [
+   {
+      value: 1,
+      color: "#F41C54",
+      highlight: "#F3AF5A",
+      label: "Image 1"
+   },
+   {
+      value: 1,
+      color: "#FF9F00",
+      highlight: "#F3AF5A",
+      label: "Image 2"
    }
+];
 
-  $('#pic1').click(function(){
-    console.log("clicked");
-    $(this).attr("class", "winner");
-    $('#pic2').attr("class", "");
-    cats[left].votes++;
-    console.log(cats[left].votes);
-    chart.segments[0].value = cats[right].votes;
-    chart.segments[1].value = cats[left].votes;
-    chart.update();
-  });
+var pieOptions = {
+   segmentShowStroke: false,
+   animateScale: true
+};
 
-  $('#pic2').click(function(){
-    console.log("clicked");
-    $(this).attr("class", "winner");
-    $('#pic1').attr("class", "");
-    cats[right].votes++;
-    console.log(cats[right].votes);
-    chart.segments[0].value = cats[right].votes;
-    console.log(chart.segments[0].value);
-    chart.segments[1].value = cats[left].votes;
-    chart.update();
-  });
 
-  $('#reroll').click(function(){
-      $('#pic1').attr("src", "").removeClass("winner");
-      $('#pic2').attr("src", "").removeClass("winner");
-      newDisplay();
-      display();
-  });
+var myChart = document.getElementById("myChart").getContext("2d");
+var chart = new Chart(myChart).Pie(pieData, pieOptions);
+
+function randomNum(min, max) {
+ return Math.floor(Math.random() * (max - min) + min);
+}
+
+function display() {
+  $('#pic1').attr("src", cats[left].path);
+  $('#pic2').attr("src", cats[right].path);
+}
+newDisplay();
+display();
+
+function newDisplay() {
+   left = randomNum(1, 14);
+   right = randomNum(1, 14);
+   if (left == right) {
+      right = randomNum(1, 14);
+   }
+   console.log(left, right);
+ }
+
+$('#pic1').click(function(){
+  console.log("clicked");
+  $(this).attr("class", "winner");
+  $('#pic2').attr("class", "");
+  cats[left].votes++;
+  localStorage.setItem("catVotes", JSON.stringify(cats));
+  console.log(cats[left].votes);
+  chart.segments[0].value = cats[right].votes;
+  chart.segments[1].value = cats[left].votes;
+  chart.update();
 });
+
+$('#pic2').click(function(){
+  console.log("clicked");
+  $(this).attr("class", "winner");
+  $('#pic1').attr("class", "");
+  cats[right].votes++;
+  localStorage.setItem("catVotes", JSON.stringify(cats));
+  console.log(cats[right].votes);
+  chart.segments[0].value = cats[right].votes;
+  chart.segments[1].value = cats[left].votes;
+  chart.update();
+});
+
+$('#reroll').click(function(){
+    $('#pic1').attr("src", "").removeClass("winner");
+    $('#pic2').attr("src", "").removeClass("winner");
+    newDisplay();
+    display();
+});
+
+if (!(localStorage.getItem("catVotes"))) {
+  localStorage.setItem("catVotes", JSON.stringify(cats));
+} else {
+  cats = JSON.parse(localStorage.getItem("catVotes"));
+}
+
 
 // for (i = 0; i < 14; i++) {
 //    pieData[i].value = cats[i].votes;
