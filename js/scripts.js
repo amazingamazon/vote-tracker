@@ -1,108 +1,166 @@
-var Photo = function(path) {
- this.path = "img/" + path + ".jpg";
- this.votes = 0;
- this.number = path;
-};
+$(document).ready(function() {
 
-var cat1 = new Photo(1);
-var cat2 = new Photo(2);
-var cat3 = new Photo(3);
-var cat4 = new Photo(4);
-var cat5 = new Photo(5);
-var cat6 = new Photo(6);
-var cat7 = new Photo(7);
-var cat8 = new Photo(8);
-var cat9 = new Photo(9);
-var cat10 = new Photo(10);
-var cat11 = new Photo(11);
-var cat12 = new Photo(12);
-var cat13 = new Photo(13);
-var cat14 = new Photo(14);
+  var photo = function (path, number) {
+   this.path = path;
+   this.number = number;
+   this.votes = 0;
+  };
 
-var cats = [];
-cats.push(cat1, cat2, cat3, cat4, cat5, cat6, cat7, cat8, cat9, cat10, cat11, cat12, cat13, cat14);
+  var cats = [];
+  var left = undefined;
+  var right = undefined;
 
-var Tracker = function(cats) {
-   this.cats = cats;
-   this.left = document.getElementById("pic1");
-   this.right = document.getElementById("pic2");
-   this.leftrandom = this.generateRandom();
-   this.rightrandom = this.generateRandom();
-};
+  var pieData = [
+     {
+        // value: cats[left].votes,
+        value: 1,
+        color: "#F41C54",
+        highlight: "#F3AF5A",
+        label: "Image 1"
+     },
+     {
+        // value: cats[right].votes,
+        value: 1,
+        color: "#FF9F00",
+        highlight: "#F3AF5A",
+        label: "Image 2"
+     }
+  ];
 
-Tracker.prototype.generateRandom = function() {
-   var randNum = Math.floor(Math.random() * (this.cats.length - 1));
-   var randCat = this.cats[randNum];
-   return randCat;
-};
+  var pieOptions = {
+     segmentShowStroke: false,
+     animateScale: true
+  };
 
-Tracker.prototype.displayImages = function() {
-   this.left.src = this.leftrandom.path;
-   console.log(this.left.src);
 
-   this.right.src = this.rightrandom.path;
-   console.log(this.right.src);
+  var myChart = document.getElementById("myChart").getContext("2d");
+  var chart = new Chart(myChart).Pie(pieData, pieOptions);
 
-   while (this.left.src == this.right.src) {
-      console.log("It's the same cat!");
-      this.displayImages();
+
+  for (var i = 1; i <= 14; i++) {
+   cats.push(new photo("img/" + i + ".jpg", i));
+  }
+
+  console.log(cats);
+
+  function randomNum(min, max) {
+   return Math.floor(Math.random() * (max - min) + min);
+  }
+
+  function display() {
+   $('#pic1').attr("src", cats[left].path);
+   $('#pic2').attr("src", cats[right].path);
+  }
+  newDisplay();
+  display();
+
+  function newDisplay() {
+     left = randomNum(1, 14);
+     right = randomNum(1, 14);
+     if (left == right) {
+        right = randomNum(1, 14);
+     }
+     console.log(left, right);
    }
-   console.log(this.leftrandom, this.rightrandom);
-   return [this.left.src, this.right.src];
-};
 
-var getCats = new Tracker(cats);
-getCats.displayImages();
+  $('#pic1').click(function(){
+    console.log("clicked");
+    $(this).attr("class", "winner");
+    $('#pic2').attr("class", "");
+    cats[left].votes++;
+    console.log(cats[left].votes);
+    chart.segments[0].value = cats[right].votes;
+    chart.segments[1].value = cats[left].votes;
+    chart.update();
+  });
 
-var voteAgain = document.getElementById("reroll");
-voteAgain.addEventListener("click", function() {
-   getCats.left.src = getCats.generateRandom().path;
-   console.log(getCats.left.src);
-   getCats.right.src = getCats.generateRandom().path;
-   console.log(getCats.right.src);
-   while (getCats.left.src == getCats.right.src) {
-      console.log("It's the same cat!");
-      getCats.displayImages();
-   }
-   getCats.left.removeAttribute("class");
-   getCats.right.removeAttribute("class");
+  $('#pic2').click(function(){
+    console.log("clicked");
+    $(this).attr("class", "winner");
+    $('#pic1').attr("class", "");
+    cats[right].votes++;
+    console.log(cats[right].votes);
+    chart.segments[0].value = cats[right].votes;
+    console.log(chart.segments[0].value);
+    chart.segments[1].value = cats[left].votes;
+    chart.update();
+  });
+
+  $('#reroll').click(function(){
+      $('#pic1').attr("src", "").removeClass("winner");
+      $('#pic2').attr("src", "").removeClass("winner");
+      newDisplay();
+      display();
+  });
 });
 
-getCats.left.addEventListener("click", function() {
-   getCats.left.setAttribute("class", "winner");
-   getCats.right.removeAttribute("class");
+// for (i = 0; i < 14; i++) {
+//    pieData[i].value = cats[i].votes;
+//    Chart.update();
+// }
 
-   cats[getCats.leftrandom.number].votes++;
-   console.log(cats[getCats.leftrandom.number]);
-   console.log(cats[getCats.leftrandom.number].votes);
- });
 
-getCats.right.addEventListener("click", function() {
-   getCats.right.setAttribute("class", "winner");
-   getCats.left.removeAttribute("class");
 
-   cats[getCats.rightrandom.number].votes++;
-   console.log(cats[getCats.rightrandom.number]);
-   console.log(cats[getCats.rightrandom.number].votes);
-});
 
-var pieData = [
-   {
-      value: 3,
-      color:"#FF9F00"
-   },
-   {
-      value : 7,
-      color : "#F41C54"
-   },
-];
 
-var pieOptions = {
-   segmentShowStroke : false,
-   animateScale : true
-};
+// var pieData = [
+//    {
+//       value: 0,
+//       color:"FA0064"
+//    },
+//    {
+//       value: 0,
+//       color: "#C8004B"
+//    },
+//     {
+//       value: 0,
+//       color: "#960032"
+//    },
+//     {
+//       value: 0,
+//       color: "#640019"
+//    },
+//     {
+//       value: 0,
+//       color: "#320000"
+//    },
+//     {
+//       value: 0,
+//       color: "EC2800"
+//    },
+//     {
+//       value: 0,
+//       color: "#ED4E0C"
+//    },
+//     {
+//       value: 0,
+//       color: "#F26B1D"
+//    },
+//     {
+//       value: 0,
+//       color: "#F28F38"
+//    },
+//     {
+//       value: 0,
+//       color: "#F3AF5A"
+//    },
+//     {
+//       value : 0,
+//       color : "#108F0B"
+//    },
+//     {
+//       value : 0,
+//       color : "#44AB1F"
+//    },
+//     {
+//       value : 0,
+//       color : "#66CC1F"
+//    },
+//     {
+//       value : 0,
+//       color : "#8CDB50"
+//    },
+// ];
 
-var myChart= document.getElementById("myChart").getContext("2d");
-new Chart(myChart).Pie(pieData, pieOptions);
 
 
