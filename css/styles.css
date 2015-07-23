@@ -1,15 +1,20 @@
 body {
   width: 95%;
+  background: #38001C;
 }
 
 h1 {
-  font-size: 52px;
+  font-family: "Alice", serif;
+  font-size: 56px;
+  color: rgba(247,239,247,1);
   text-align: center;
   margin: 30px;
 }
 
 h2 {
-  font-size: 30px;
+  font-family: "Alice", serif;
+  font-size: 36px;
+  color: rgba(247,239,247,1);
   text-align: center;
   margin: 30px;
 }
@@ -18,10 +23,12 @@ h2 {
   width: 960px;
 }
 
-#pic1, #pic2 {
+img {
+  border: 1px solid black;
   float: left;
   margin-left: 200px;
   margin-right: 200px;
+  opacity: 0.7;
 }
 
 p {
@@ -35,9 +42,17 @@ p {
   margin-top: 300px;
 }
 
+input:focus {
+  outline: none;
+}
+
 .winner {
-  border: 5px solid red;
   border-radius: 50%;
+  transform: scale(1.35);
+  opacity: 1.0;
+  -webkit-box-shadow: 0px 0px 77px 6px rgba(247,239,247,1);
+  -moz-box-shadow: 0px 0px 77px 6px rgba(247,239,247,1);
+  box-shadow: 0px 0px 77px 6px rgba(247,239,247,1);
 }
 
 

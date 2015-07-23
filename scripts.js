@@ -36,18 +36,22 @@ Tracker.prototype.generateRandom = function() {
   var randCat = this.cats[randNum];
   return randCat;
 };
-
 Tracker.prototype.displayImages = function() {
-  this.left.src = this.generateRandom().path;
+  var leftrandom = this.generateRandom();
+  var rightrandom = this.generateRandom();
+  this.left.src = leftrandom.path;
   console.log(this.left.src);
-  this.right.src = this.generateRandom().path;
+  this.right.src = rightrandom.path;
+  //  this.right.src = this.generateRandom().path;
   console.log(this.right.src);
   while (this.left.src == this.right.src) {
     console.log("It's the same cat!");
     this.displayImages();
-  }
-};
 
+  }
+  console.log(leftrandom, rightrandom);
+    return [this.left.src, this.right.src];
+};
 
 var getCats = new Tracker();
 getCats.displayImages();
@@ -64,22 +68,17 @@ voteAgain.addEventListener("click", function() {
   }
   getCats.left.removeAttribute("class");
   getCats.right.removeAttribute("class");
-
 });
 
 getCats.left.addEventListener("click", function() {
-    getCats.right.removeAttribute("class");
     getCats.left.setAttribute("class", "winner");
-    var source = getCats.left.getAttribute("src");
-    console.log(source);
-    getCats.left.votes += 1;
-    console.log(getCats.left + "has" + getCats.left.votes);
+    getCats.right.removeAttribute("class");
+    // console.log(source);
+    // getCats.left.votes += 1;
+    // console.log(cats.randomleft + " has " + cats);
   });
 
 getCats.right.addEventListener("click", function() {
-  getCats.left.removeAttribute("class");
   getCats.right.setAttribute("class", "winner");
-  getCats.right.votes += 1;
-  console.log(getCats.right + "has" + getCats.right.votes);
-
+  getCats.left.removeAttribute("class");
 });
