@@ -86,17 +86,14 @@ getCats.right.addEventListener("click", function() {
    console.log(cats[getCats.rightrandom.number].votes);
 });
 
-var myChart= document.getElementById("myChart").getContext("2d");
-new Chart(myChart).Pie(pieData, pieOptions);
-
 var pieData = [
    {
-      value: cats[getCats.leftrandom.number].votes,
-      color:"#878BB6"
+      value: 3,
+      color:"#FF9F00"
    },
    {
-      value : cats[getCats.rightrandom.number].votes,
-      color : "#4ACAB4"
+      value : 7,
+      color : "#F41C54"
    },
 ];
 
@@ -104,5 +101,8 @@ var pieOptions = {
    segmentShowStroke : false,
    animateScale : true
 };
+
+var myChart= document.getElementById("myChart").getContext("2d");
+new Chart(myChart).Pie(pieData, pieOptions);
 
 
