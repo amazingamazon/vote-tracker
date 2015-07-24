@@ -1,6 +1,5 @@
-var photo = function (path, number) {
+var photo = function (path) {
   this.path = path;
-  this.number = number;
   this.votes = 0;
 };
 
@@ -8,9 +7,20 @@ var cats = [];
 var left = undefined;
 var right = undefined;
 
-for (var i = 1; i <= 14; i++) {
- cats.push(new photo("img/" + i + ".jpg", i));
-}
+$.ajax({
+  url: 'https://api.imgur.com/3/album/DDoWy.json',
+  method: 'GET',
+  headers: {
+    'Authorization': 'Client-ID 9dcdf01cc75f3c1'
+  }
+})
+.done(function(res) {
+  cats = res.data.images;
+  console.log(cats);
+})
+.fail(function(err) {
+  console.log(err);
+});
 
 console.log(cats);
 
@@ -34,7 +44,6 @@ var pieOptions = {
    animateScale: true
 };
 
-
 var myChart = document.getElementById("myChart").getContext("2d");
 var chart = new Chart(myChart).Pie(pieData, pieOptions);
 
@@ -46,8 +55,8 @@ function display() {
   $('#pic1').attr("src", cats[left].path);
   $('#pic2').attr("src", cats[right].path);
 }
-newDisplay();
-display();
+// newDisplay();
+// display();
 
 function newDisplay() {
    left = randomNum(1, 14);
@@ -95,6 +104,8 @@ if (!(localStorage.getItem("catVotes"))) {
   cats = JSON.parse(localStorage.getItem("catVotes"));
 }
 
+newDisplay();
+display();
 
 // for (i = 0; i < 14; i++) {
 //    pieData[i].value = cats[i].votes;
