@@ -1,11 +1,11 @@
-var photo = function (path) {
+var Photo = function (path) {
   this.path = path;
   this.votes = 0;
 };
 
 var cats = [];
-var left = undefined;
-var right = undefined;
+var left;
+var right;
 
 $.ajax({
   url: 'https://api.imgur.com/3/album/DDoWy.json',
@@ -16,13 +16,16 @@ $.ajax({
 })
 .done(function(res) {
   cats = res.data.images;
+  for (var i = 0; i <14; i++) {
+    cats[i].votes = 0;
+  }
+  newDisplay();
+  display();
   console.log(cats);
 })
 .fail(function(err) {
   console.log(err);
 });
-
-console.log(cats);
 
 var pieData = [
    {
@@ -52,8 +55,8 @@ function randomNum(min, max) {
 }
 
 function display() {
-  $('#pic1').attr("src", cats[left].path);
-  $('#pic2').attr("src", cats[right].path);
+  $('#pic1').attr("src", cats[left].link);
+  $('#pic2').attr("src", cats[right].link);
 }
 // newDisplay();
 // display();
@@ -71,7 +74,7 @@ $('#pic1').click(function(){
   console.log("clicked");
   $(this).attr("class", "winner");
   $('#pic2').attr("class", "");
-  cats[left].votes++;
+  cats[left].votes += 1;
   localStorage.setItem("catVotes", JSON.stringify(cats));
   console.log(cats[left].votes);
   chart.segments[0].value = cats[right].votes;
@@ -83,7 +86,7 @@ $('#pic2').click(function(){
   console.log("clicked");
   $(this).attr("class", "winner");
   $('#pic1').attr("class", "");
-  cats[right].votes++;
+  cats[right].votes += 1;
   localStorage.setItem("catVotes", JSON.stringify(cats));
   console.log(cats[right].votes);
   chart.segments[0].value = cats[right].votes;
@@ -104,8 +107,9 @@ if (!(localStorage.getItem("catVotes"))) {
   cats = JSON.parse(localStorage.getItem("catVotes"));
 }
 
-newDisplay();
-display();
+  newDisplay();
+  display();
+
 
 // for (i = 0; i < 14; i++) {
 //    pieData[i].value = cats[i].votes;
@@ -174,6 +178,7 @@ display();
 //       color : "#8CDB50"
 //    },
 // ];
+
 
 
 
