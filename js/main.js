@@ -16,9 +16,15 @@ $.ajax({
 })
 .done(function(res) {
   cats = res.data.images;
-  for (var i = 0; i <14; i++) {
-    cats[i].votes = 0;
+  if (!(localStorage.getItem("catVotes"))) {
+    localStorage.setItem("catVotes", JSON.stringify(cats));
+    for (var i = 0; i <14; i++) {
+      cats[i].votes = 0;
+    }
+  } else {
+    cats = JSON.parse(localStorage.getItem("catVotes"));
   }
+
   newDisplay();
   display();
   console.log(cats);
