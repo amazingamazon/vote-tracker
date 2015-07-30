@@ -15,15 +15,19 @@ $.ajax({
   }
 })
 .done(function(res) {
+  console.dir(res.data.images);
   cats = res.data.images;
   if (!(localStorage.getItem("catVotes"))) {
-    localStorage.setItem("catVotes", JSON.stringify(cats));
-    for (var i = 0; i <14; i++) {
+    for (var i = 0; i < cats.length; i++) {
       cats[i].votes = 0;
     }
+    console.dir(cats);
+    localStorage.setItem("catVotes", JSON.stringify(cats));
   } else {
     cats = JSON.parse(localStorage.getItem("catVotes"));
   }
+  // localStorage.setItem("catVotes", JSON.stringify(cats));
+  console.dir(localStorage.getItem("catVotes"));
 
   newDisplay();
   display();
@@ -80,9 +84,9 @@ $('#pic1').click(function(){
   console.log("clicked");
   $(this).attr("class", "winner");
   $('#pic2').attr("class", "");
+  console.log(cats[left].votes);
   cats[left].votes += 1;
   localStorage.setItem("catVotes", JSON.stringify(cats));
-  console.log(cats[left].votes);
   chart.segments[0].value = cats[right].votes;
   chart.segments[1].value = cats[left].votes;
   chart.update();
@@ -107,11 +111,11 @@ $('#reroll').click(function(){
     display();
 });
 
-if (!(localStorage.getItem("catVotes"))) {
-  localStorage.setItem("catVotes", JSON.stringify(cats));
-} else {
-  cats = JSON.parse(localStorage.getItem("catVotes"));
-}
+// if (!(localStorage.getItem("catVotes"))) {
+//   localStorage.setItem("catVotes", JSON.stringify(cats));
+// } else {
+//   cats = JSON.parse(localStorage.getItem("catVotes"));
+// }
 
   newDisplay();
   display();
