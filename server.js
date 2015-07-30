@@ -16,5 +16,5 @@ app.get('/*', function(req, res) {
   res.sendFile(path.join(__dirname, '/public/404.html'));
 });
 
-http.createServer(app).listen(5000);
+http.createServer(app).listen(process.env.PORT || 5000);
 console.log("The server is listening on port 5000...");
