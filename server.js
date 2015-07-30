@@ -6,7 +6,10 @@ var path = require('path');
 app.use(express.static('public'));
 
 app.get('/secret', function(req, res) {
-  res.status(200).send('THE fog comes</br>on little cat feet.</br></br>It sits looking</br>over harbor and city</br>on silent haunches</br>and then moves on.</br></br><b>Carl Sandburg</b>, <em>Fog</em>');
+  // res.status(200).send('THE fog comes</br>on little cat feet.</br></br>It sits looking</br>over harbor and city</br>on silent haunches</br>and then moves on.</br></br><b>Carl Sandburg</b>, <em>Fog</em>');
+  var secret = "Shhhhhh...";
+  console.log(secret);
+  res.send(secret);
 });
 
 app.get('/*', function(req, res) {
